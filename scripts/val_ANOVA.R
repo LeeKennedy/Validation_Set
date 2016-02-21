@@ -1,20 +1,20 @@
 library(readxl)
 library(ggplot2)
 library(broom)
-vfile <- "data/FRUCTANS.xlsx"
+vfile <- "data/Validation_Workbook.xlsx"
 sheets <- excel_sheets(vfile)
 sheets
 
 # STOP--------------Set m = desired sheet number------------------
-m <- 4
+m <- 3
 
 # ANOVA-----------------------------------------------------------
 anova <- read_excel(vfile, sheets[m])
 anova
 
 # STOP--------------Set rows and columns for ANOVA data-----------
-cols <- 2
-rows <- 5
+cols <- 7
+rows <- 7
 
 Input <- anova[1:rows, 1:cols]
 

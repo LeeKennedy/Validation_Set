@@ -1,12 +1,12 @@
 library(readxl)
 library(ggplot2)
 library(broom)
-vfile <- "data/FRUCTANS.xlsx"
+vfile <- "data/Validation_Workbook.xlsx"
 sheets <- excel_sheets(vfile)
 sheets
 
 # Linearity-----------------------------------------------------------
-linearity <- read_excel(vfile, sheets[6])
+linearity <- read_excel(vfile, sheets[1])
 
 col1 <- colnames(linearity[1])
 col2 <- colnames(linearity[2])

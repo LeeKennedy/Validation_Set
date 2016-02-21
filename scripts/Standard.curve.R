@@ -9,11 +9,16 @@ fit = lm(Response ~ Conc, data = data1)
 #fit = lm(Response ~ Conc-1, data = data1)
 summary(fit)
 
+# Suppress scientific notation on y-axis---------------------------------
+options(scipen=5)
+
+
+#Plot--------------------------------------------------------------------
 dataplot = ggplot(data = data1, aes(x = Conc, y = Response)) + 
   geom_point(size=5, shape = 21, colour = "darkgreen") + 
   geom_abline(intercept=coef(fit)[1], slope=coef(fit)[2]) + 
   stat_smooth(method = "lm", fullrange = TRUE) +
-  annotate("text", label = paste("R2 = ",round(summary(fit)$r.squared,digits=4)), x = 36, y = 10) +
+  annotate("text", label = paste("R2 = ",round(summary(fit)$r.squared,digits=4)), x = 3, y = 70000) +
   xlab("Values of X") +
   ylab("Values of Y") +
   geom_hline(yintercept = 0) +
@@ -25,6 +30,7 @@ dataplot = ggplot(data = data1, aes(x = Conc, y = Response)) +
               text = element_text(size = 14))
 dataplot
 
+# 95% CI for co-efficients-----------------------------------------
 coefficients(fit) # model coefficients
 confint(fit, level=0.95) # CIs for model parameters
 CI_curve <- confint(fit, level=0.95) 

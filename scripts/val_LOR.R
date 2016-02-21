@@ -1,13 +1,13 @@
 library(readxl)
 library(ggplot2)
 library(broom)
-vfile <- "data/FRUCTANS.xlsx"
+vfile <- "data/Validation_Workbook.xlsx"
 sheets <- excel_sheets(vfile)
 sheets
 
 # LOD-LOR-----------------------------------------------------------
-LOR <- read_excel(vfile, sheets[7], skip = 3)
-LOR <- LOR[,1:2]
+LOR <- read_excel(vfile, sheets[2])
+#LOR <- LOR[,1:2]
 
 colnames(LOR)[1] <- "Test"
 colnames(LOR)[2] <- "Result"
