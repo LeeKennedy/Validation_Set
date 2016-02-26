@@ -1,11 +1,11 @@
-version: 0.6
 data_loading: TRUE
-cache_loading: TRUE
-recursive_loading: FALSE
+cache_loading: FALSE
 munging: TRUE
 logging: FALSE
 load_libraries: TRUE
-libraries: dplyr, ggplot2, readxl, tidyr, lubridate, dts.quality, psych
-as_factors: TRUE
+libraries: ggplot2, dplyr, readxl, tidyr, lubridate, psych, dts.quality
+as_factors: FALSE
 data_tables: FALSE
+recursive_loading: TRUE
+version: 0.6
 attach_internal_libraries: FALSE
