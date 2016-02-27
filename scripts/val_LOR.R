@@ -1,12 +1,8 @@
-library(readxl)
-library(ggplot2)
-library(broom)
-vfile <- "data/Validation_Workbook.xlsx"
-sheets <- excel_sheets(vfile)
-sheets
+library("ProjectTemplate")
+load.project()
 
 # LOD-LOR-----------------------------------------------------------
-LOR <- read_excel(vfile, sheets[2])
+LOR <- Validation.Workbook.LOD.LOR
 #LOR <- LOR[,1:2]
 
 colnames(LOR)[1] <- "Test"

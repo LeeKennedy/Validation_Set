@@ -1,12 +1,8 @@
-library(readxl)
-library(ggplot2)
-library(broom)
-vfile <- "data/Validation_Workbook.xlsx"
-sheets <- excel_sheets(vfile)
-sheets
+library("ProjectTemplate")
+load.project()
 
 # Linearity-----------------------------------------------------------
-linearity <- read_excel(vfile, sheets[1])
+linearity <- Validation.Workbook.Linearity
 
 col1 <- colnames(linearity[1])
 col2 <- colnames(linearity[2])
@@ -37,3 +33,8 @@ plot(linplot)
 dev.off()
 lin2
 R2
+
+# 95% CI for co-efficients-----------------------------------------
+coefficients(lin) # model coefficients
+confint(lin, level=0.95) # CIs for model parameters
+CI_curve <- confint(lin, level=0.95) 

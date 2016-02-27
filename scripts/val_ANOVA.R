@@ -1,22 +1,15 @@
-library(readxl)
-library(ggplot2)
-library(broom)
-vfile <- "data/Validation_Workbook.xlsx"
-sheets <- excel_sheets(vfile)
-sheets
-
-# STOP--------------Set m = desired sheet number------------------
-m <- 3
+library("ProjectTemplate")
+load.project()
 
 # ANOVA-----------------------------------------------------------
-anova <- read_excel(vfile, sheets[m])
-anova
+data_anova <- Validation.Workbook.ANOVA1
+data_anova
 
 # STOP--------------Set rows and columns for ANOVA data-----------
-cols <- 7
-rows <- 7
+cols <- as.numeric(ncol(data_anova))
+rows <- as.numeric(nrow(data_anova))
 
-Input <- anova[1:rows, 1:cols]
+Input <- data_anova[1:rows, 1:cols]
 
 for (i in 1:cols) {
         Input[,i] = as.numeric(unlist(Input[,i]))
@@ -25,19 +18,13 @@ for (i in 1:cols) {
 
 #Always look at the data
 
-png(filename = paste0(sheets[m], "-Boxplot.png", sep=""),    width = 1000, height = 550, units = "px", pointsize = 12)
 
 boxplot(Input,
         frame = TRUE,
         cex.axis = 1.5,
         cex.main = 2,
         outpch=16,
-        outcol = "red",
-        main = sheets[m])
-dev.off()
-
-# Review data frame
-summary(Input)
+        outcol = "red")
 
 #convert to a two element stack
 xs <- na.omit(stack(Input))
@@ -69,6 +56,8 @@ UWL <- Mean + 2*sdR
 LWL <- Mean - 2*sdR
 LCL <- Mean - 3*sdR
 
+dev.off()
+
 boxplot(Input,
         ylim = c(0.95*LCL,1.05*UCL))
 
@@ -78,9 +67,8 @@ abline(h=LCL, lty=5, lwd=1.5, col = "red")
 abline(h=UWL, lty=5, lwd=1.5, col = "darkgreen")
 abline(h=LWL, lty=5, lwd=1.5, col = "darkgreen")
 
-library(ggplot2)
-plot = ggplot(xs, aes(x=ind, y=values)) +
-        geom_point(size=5, colour = "cornflowerblue") +
+plot_anova = ggplot(xs, aes(x=ind, y=values)) +
+        geom_point(size=5, shape = 21, colour = "black", fill = "cornflowerblue") +
         geom_hline(aes(yintercept=Mean),lty=5, col = "blue") +
         geom_hline(aes(yintercept=UCL),lty=5, col = "red") +
         geom_hline(aes(yintercept=LCL),lty=5, col = "red") +
@@ -93,5 +81,5 @@ plot = ggplot(xs, aes(x=ind, y=values)) +
               legend.position = c(2.3,8), 
               text = element_text(size = 14))
 
-plot
+plot_anova
 

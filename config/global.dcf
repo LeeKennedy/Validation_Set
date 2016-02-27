@@ -3,7 +3,7 @@ cache_loading: FALSE
 munging: TRUE
 logging: FALSE
 load_libraries: TRUE
-libraries: ggplot2, dplyr, readxl, tidyr, lubridate, psych, dts.quality
+libraries: ggplot2, dplyr, readxl, tidyr, lubridate, psych, dts.quality, broom
 as_factors: FALSE
 data_tables: FALSE
 recursive_loading: TRUE
