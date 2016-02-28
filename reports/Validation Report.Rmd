@@ -1,0 +1,189 @@
+---
+title: "Validation Report"
+author: "Lee Kennedy"
+date: "28 February 2016"
+output: word_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r, echo = FALSE, message=FALSE}
+library("ProjectTemplate")
+load.project()
+
+# Linearity-----------------------------------------------------------
+linearity <- Validation.Workbook.Linearity
+
+
+                
+col1 <- colnames(linearity[1])
+col2 <- colnames(linearity[2])
+colnames(linearity)[1] <- "A"
+colnames(linearity)[2] <- "B"
+
+lin <- lm(linearity$B~linearity$A)
+lin1 <- summary(lin)
+lin2 <- tidy(lin)
+R2 <- lin1$r.squared
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r, echo=FALSE}
+linplot = ggplot(linearity, aes(x = A, y = B)) + 
+        geom_point(size=5, shape = 21, colour = "darkgreen") + 
+        geom_abline(intercept=coef(lin)[1], slope=coef(lin)[2]) + 
+        stat_smooth(method = "lm", fullrange = TRUE) +
+        annotate("text", label = paste("R2 = ",round(summary(lin)$r.squared,digits=4)), x = 0.5*max(linearity[,1]), y = 0.8*max(linearity[,2])) +
+       labs(x=col1, y=col2, title = "Linearity\n") +
+        theme_bw() +
+        theme(panel.grid.major = element_line(size = 0.5, color = "grey"), 
+              axis.line = element_line(size = 0.7, color = "black"), 
+              legend.position = c(2.3,8), 
+              text = element_text(size = 14))
+
+linplot
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+```{r}
+lin2
+R2
+
+
+# 95% CI for co-efficients-----------------------------------------
+coefficients(lin) # model coefficients
+confint(lin, level=0.95) # CIs for model parameters
+CI_curve <- confint(lin, level=0.95) 
+```
+
+xxx
+
+```{r}
+# LOD-LOR-----------------------------------------------------------
+LOR <- Validation.Workbook.LOD.LOR
+#LOR <- LOR[,1:2]
+
+
+colnames(LOR)[1] <- "Test"
+colnames(LOR)[2] <- "Result"
+
+LOR <- na.omit(LOR)
+
+limit_d <- 3*sd(LOR$Result)
+limit_r <- 10*sd(LOR$Result)
+
+print(limit_d)
+
+print(limit_r)
+```
+
+xxxx
+
+```{r, echo = FALSE}
+# ANOVA-----------------------------------------------------------
+data_anova <- Validation.Workbook.ANOVA1
+
+
+
+cols <- as.numeric(ncol(data_anova))
+rows <- as.numeric(nrow(data_anova))
+
+Input <- data_anova[1:rows, 1:cols]
+
+for (i in 1:cols) {
+        Input[,i] = as.numeric(unlist(Input[,i]))
+}
+```
+
+Boxplot of data:
+
+```{r}
+
+boxplot(Input,
+        frame = TRUE,
+        cex.axis = 1.5,
+        cex.main = 2,
+        outpch=16,
+        outcol = "red")
+```
+
+xxxx
+
+```{r}
+#convert to a two element stack
+xs <- na.omit(stack(Input))
+
+# Run ANOVA
+anova1 <- aov(values ~ ind, data = xs)
+
+#Review results
+summary(anova1)
+
+#Check for significant differences
+TukeyHSD(anova1)
+
+#Repeatability & Interim Precision
+mean.sqr <- summary(anova1)[1][[1]][[3]]
+ncount <- as.numeric(length(anova1$effects))/as.numeric(length(anova1$coefficients))
+sdr <- sqrt(mean.sqr[2])
+interim <- sqrt((mean.sqr[1]-mean.sqr[2])/ncount)
+sdR <- sqrt(sdr^2 + interim^2)
+sdr
+sdR
+
+```
+
+
+xxx
+
+```{r, echo = FALSE}
+
+
+Mean <- mean(xs$values)
+UCL <- Mean + 3*sdR
+UWL <- Mean + 2*sdR
+LWL <- Mean - 2*sdR
+LCL <- Mean - 3*sdR
+
+dev.off()
+
+boxplot(Input,
+        ylim = c(0.95*LCL,1.05*UCL))
+
+abline(h=Mean, lty=5, lwd=1.5, col = "blue")
+abline(h=UCL, lty=5, lwd=1.5, col = "red")
+abline(h=LCL, lty=5, lwd=1.5, col = "red")
+abline(h=UWL, lty=5, lwd=1.5, col = "darkgreen")
+abline(h=LWL, lty=5, lwd=1.5, col = "darkgreen")
+```
+xxxx
+```{r}
+plot_anova = ggplot(xs, aes(x=ind, y=values)) +
+        geom_point(size=5, shape = 21, colour = "black", fill = "cornflowerblue") +
+        geom_hline(aes(yintercept=Mean),lty=5, col = "blue") +
+        geom_hline(aes(yintercept=UCL),lty=5, col = "red") +
+        geom_hline(aes(yintercept=LCL),lty=5, col = "red") +
+        geom_hline(aes(yintercept=UWL),lty=5, col = "darkgreen") +
+        geom_hline(aes(yintercept=LWL),lty=5, col = "darkgreen") +
+        scale_y_continuous(limits = c(0.95*LCL,1.05*UCL)) +
+        theme_bw() +
+        theme(panel.grid.major = element_line(size = 0.5, color = "grey"), 
+              axis.line = element_line(size = 0.7, color = "black"), 
+              legend.position = c(2.3,8), 
+              text = element_text(size = 14))
+
+plot_anova
+```
+
