@@ -3,9 +3,9 @@ load.project()
 
 # ANOVA-----------------------------------------------------------
 data_anova <- Validation.Workbook.ANOVA1
-data_anova
 
-# STOP--------------Set rows and columns for ANOVA data-----------
+
+
 cols <- as.numeric(ncol(data_anova))
 rows <- as.numeric(nrow(data_anova))
 

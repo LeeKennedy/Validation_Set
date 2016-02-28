@@ -4,6 +4,8 @@ load.project()
 # Linearity-----------------------------------------------------------
 linearity <- Validation.Workbook.Linearity
 
+
+                
 col1 <- colnames(linearity[1])
 col2 <- colnames(linearity[2])
 colnames(linearity)[1] <- "A"
@@ -13,6 +15,8 @@ lin <- lm(linearity$B~linearity$A)
 lin1 <- summary(lin)
 lin2 <- tidy(lin)
 R2 <- lin1$r.squared
+
+
 
 linplot = ggplot(linearity, aes(x = A, y = B)) + 
         geom_point(size=5, shape = 21, colour = "darkgreen") + 
@@ -25,14 +29,16 @@ linplot = ggplot(linearity, aes(x = A, y = B)) +
               axis.line = element_line(size = 0.7, color = "black"), 
               legend.position = c(2.3,8), 
               text = element_text(size = 14))
+
 linplot
 
 png(filename = paste("graphs/","Linearity.png",sep=""),
     width = 1000, height = 550, units = "px", pointsize = 12)
 plot(linplot)
-dev.off()
+
 lin2
 R2
+
 
 # 95% CI for co-efficients-----------------------------------------
 coefficients(lin) # model coefficients
