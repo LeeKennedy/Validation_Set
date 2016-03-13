@@ -18,7 +18,7 @@ for (i in 1:cols) {
 
 #Always look at the data
 
-
+dev.off()
 boxplot(Input,
         frame = TRUE,
         cex.axis = 1.5,
