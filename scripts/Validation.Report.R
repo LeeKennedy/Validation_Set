@@ -6,7 +6,7 @@ library(tidyr)
 library(broom)
 
 # -- insert analyte ----------------------------------
-code <- "Blahblah"
+code <- "Blahblah2"
 workbook_name <- "Validation_Workbook.xlsx"
 
 linearity <- read_excel(paste("~/Documents/GitHub/Validation_Set/data/", workbook_name, sep=""), sheet=1)
