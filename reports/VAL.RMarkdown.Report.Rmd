@@ -1,7 +1,7 @@
 ---
 title: "Validation_Report_2"
 author: "Lee Kennedy"
-date: "7 March 2016"
+date: "`r Sys.Date()`"
 output: word_document
 ---
 
@@ -10,13 +10,17 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ```
 
-## R Markdown
+## Objective
 
-This is an R Markdown document. 
+## Background
+
+## Scope
+
+## Experimental Design
 
 ## Linearity
 
-```{r linearity, echo = FALSE}
+```{r linearity, fig.width=7, fig.height=4, echo = FALSE}
 
 col1 <- colnames(linearity[1])
 col2 <- colnames(linearity[2])
@@ -24,7 +28,7 @@ colnames(linearity)[1] <- "A"
 colnames(linearity)[2] <- "B"
 
 if(is.na(linearity[1,2]) == TRUE) {
-        linearity_comment <- "No linearity data."
+        linearity_comment <- "Linearity was not examined."
         
 } else {
 
@@ -39,7 +43,6 @@ linplot = ggplot(linearity, aes(x = A, y = B)) +
         geom_point(size=5, shape = 21, colour = "darkgreen") + 
         geom_abline(intercept=coef(lin)[1], slope=coef(lin)[2]) + 
         stat_smooth(method = "lm", fullrange = TRUE) +
-        annotate("text", label = paste("R2 = ",round(summary(lin)$r.squared,digits=4)), x = 0.5*max(linearity[,1]), y = 0.8*max(linearity[,2])) +
         labs(x=col1, y=col2) +
         theme_bw() +
         theme(panel.grid.major = element_line(size = 0.5, color = "grey"), 
@@ -49,18 +52,23 @@ linplot = ggplot(linearity, aes(x = A, y = B)) +
 
 plot(linplot)
 
+
 linearity_comment <- paste("The coefficient of determination was ", round(R2,3),".", sep="")
 
 }
 
 ```
+**Discussion:**
+
 `r linearity_comment`
+
+
 
 ## LOD & LOR
 
-The LOD and LOR are estimated from three and ten times the standard deviation of results neear the LOR, respectively.
+The LOD and LOR are estimated from three and ten times the standard deviation of results near the LOR, respectively.
 
-```{r, echo=FALSE}
+```{r, fig.width=7, fig.height=4, echo=FALSE}
 
 colnames(LOR)[1] <- "Test"
 colnames(LOR)[2] <- "Result"
@@ -68,26 +76,27 @@ colnames(LOR)[2] <- "Result"
 LOR <- na.omit(LOR)
 
 if(is.na(LOR[1,2]) == TRUE) {
-        limit_d <- "not calculated as there is no LOD data"
-        limit_r <- "not calculated as there is no LOR data"
+        limit_d <- "The LOD was not examined."
+        limit_r <- "The LOR was not examined."
 } else {
-limit_d <- round(3*sd(LOR$Result),3)
-limit_r <- round(10*sd(LOR$Result),3)
+limit_d <- paste("The LOD was calculated to be ", round(3*sd(LOR$Result),0),".", sep = "")
+limit_r <- paste("The LOR was calculated to be ", round(10*sd(LOR$Result),0),".", sep = "")
 }
 
 ```
 
-The LOD is `r limit_d` and the LOR is `r limit_r`.
+**Discussion**
+
+`r limit_d`
+
+`r limit_r`
 
 
 ## Repeatability and Reproducibility
 
-```{r, echo = FALSE}
+```{r, fig.width=7, fig.height=4, echo = FALSE}
 
-if(is.na(data_anova[1,2]) == TRUE) {
-        anova_comment <- "No data."
-        
-} else {
+if(is.na(data_anova[1,2]) == FALSE) {
 
         cols <- as.numeric(ncol(data_anova))
         rows <- as.numeric(nrow(data_anova))
@@ -97,25 +106,15 @@ if(is.na(data_anova[1,2]) == TRUE) {
         for (i in 1:cols) {
         Input[,i] = as.numeric(unlist(Input[,i]))
         }
-
-
-boxplot(Input,
-        frame = TRUE,
-        cex.axis = 1.5,
-        cex.main = 2,
-        outpch=16,
-        outcol = "red")
-
-anova_comment <- "blahblah"
 }
 ```
-`r anova_comment`
 
-```{r, echo=FALSE}
+
+```{r, fig.width=7, fig.height=4, echo=FALSE}
 if(is.na(data_anova[1,2]) == TRUE) {
         
-        sdr <- "no data"
-        sdR <- "no data"
+        sdr <- " not determined."
+        sdR <- " not determined."
         
 } else {
 
@@ -138,11 +137,13 @@ sdR <- round(sqrt(sdr^2 + interim^2),3)
 
 }
 ```
-Repeatability standard deviation = `r sdr`
+Repeatability standard deviation: `r sdr`
 
-Reproducibility standard deviation = `r sdR`
+Reproducibility standard deviation: `r sdR`
 
-```{r, echo = FALSE}
+**Discussion**
+
+```{r, fig.width=7, fig.height=4, echo = FALSE}
 
 if(is.na(data_anova[1,2]) == FALSE) {
         
@@ -159,7 +160,7 @@ plot_anova = ggplot(xs, aes(x=ind, y=values)) +
         geom_hline(aes(yintercept=LCL),lty=5, col = "red") +
         geom_hline(aes(yintercept=UWL),lty=5, col = "darkgreen") +
         geom_hline(aes(yintercept=LWL),lty=5, col = "darkgreen") +
-        scale_y_continuous(limits = c(0.95*LCL,1.05*UCL)) +
+        scale_y_continuous(limits = c(0.98*LCL,1.02*UCL)) +
         theme_bw() +
         theme(panel.grid.major = element_line(size = 0.5, color = "grey"), 
               axis.line = element_line(size = 0.7, color = "black"), 
@@ -169,14 +170,15 @@ plot_anova = ggplot(xs, aes(x=ind, y=values)) +
 plot_anova
 }
 ```
+
 ## Bias
 
-```{r, echo = FALSE}
+```{r, fig.width=7, fig.height=4, echo = FALSE}
 
 if(is.na(bias[1,9]) == TRUE) {
-        ave_bias <- "no data"
-        UoB <- "No data"
-        signif <- "no data"
+        ave_bias <- "[Not examined]"
+        UoB <- "[Not examined]"
+        signif <- "[Not examined]"
 } else {
         
 r_bias = nrow(bias)
@@ -199,7 +201,7 @@ if(ave_bias > 2*UoB) {
 
 
 
-```{r, echo = FALSE}
+```{r, fig.width=7, fig.height=4, echo = FALSE}
 
 if(is.na(bias[1,9]) == FALSE) {
 bias$row_n <- as.numeric(rownames(bias))
@@ -216,15 +218,20 @@ biasplot
 
 }
 ```
+
+
+**Discussion**
+
+
 The average percent bias was found to be `r ave_bias`.  
 
 The uncertainty of the bias was found to be `r UoB`.
 
 The bias was deemed to be `r signif`.
 
-## X-Y Comparison
+# Comparison to other methods
 
-```{r, echo = FALSE}
+```{r, fig.width=7, fig.height=4, echo = FALSE}
 
 if(is.na(data3[1,2]) == FALSE) {
 
@@ -234,6 +241,7 @@ summary(fit)
 
 dataplot <- ggplot(data3, aes(x = Old, y = New)) + 
         geom_point(size=5, shape = 21, colour = "grey20", aes(fill = factor(Product))) + 
+        scale_fill_discrete(guide = guide_legend(title = "Product")) +
         geom_abline(intercept=coef(fit)[1], slope=coef(fit)[2]) + 
         annotate("text", label = paste("R2 = ",round(summary(fit)$r.squared,digits=4)), x = 7.5, y = 6) +
         geom_smooth(method = "lm") +
@@ -246,7 +254,7 @@ dataplot <- ggplot(data3, aes(x = Old, y = New)) +
         theme_bw(base_size = 12, base_family = "Arial") +
         theme(panel.grid.major = element_line(size = 0.5, color = "grey"), 
               axis.line = element_line(size = 0.7, color = "black"), 
-              text = element_text(size = 14))
+              text = element_text(size = 14)) 
 print(dataplot)
 
 coefficients(fit) # model coefficients
@@ -255,44 +263,12 @@ confint(fit, level=0.95) # CIs for model parameters
 
 ```
 
-## Standard Addition
+**Discussion**
 
-```{r, echo = FALSE, warning = FALSE}
+## Measurement Uncertainty
 
-if(is.na(data_stdadd[1,2]) == FALSE) {
+## Discussion
 
-col1 <- "#CC3300"
+## Conclusion
 
-#Do a correlation test on two components
-cor.test(data_stdadd$Abs, data_stdadd$Addition)
-
-
-fit1 <- lm(data_stdadd$Abs~data_stdadd$Addition)
-#fit1 <- lm(test$Y ~ test$X -1) #forces through zero
-fit1
-# plot(fit) #plots residuals
-summary(fit1)
-
-#fitted(fit) # returns the predicted values
-#predict(fit, newdata = 1, se.fit = TRUE) # predicted values plus error
-a <- coef(fit1)
-intercept <- a[1]/a[2]
-
-
-
-p <- ggplot(data_stdadd, aes(x = Addition, y = Abs)) +
-  geom_point(size = 4) + 
-  stat_smooth(method = lm, se = TRUE, fullrange = TRUE) +
-  geom_vline(xintercept = 0, colour="black", lwd = 0.5, linetype=1) +
-  geom_vline(xintercept = intercept*-1, colour=col1, lwd = 0.75, linetype=2) + 
-        geom_hline(yintercept = 0, colour = "black", lwd = 0.5, linetype = 1) +
-  annotate("text", label = round(intercept,3), x = -1*intercept, y = 0.2*max(data_stdadd[,2]))
-
-science_theme = theme(panel.grid.major = element_line(size = 0.5, color = "grey"), axis.line = element_line(size = 0.7, color = "black"), legend.position = c(2.3,8), text = element_text(size = 14))
-p <- p + 
-  theme_bw() +
-  science_theme
-p
-
-}
-```
+## References
