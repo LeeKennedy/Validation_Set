@@ -5,7 +5,7 @@ library(broom)
 
 # Linearity-----------------------------------------------------------
 
-linearity <- read_excel("Validation Workbook VITA12.xlsx", sheet = "Linearity")
+linearity <- read_excel("Validation_Workbook_VITE04.xlsx", sheet = "Linearity")
 
 
                 
@@ -19,7 +19,7 @@ lin1 <- summary(lin)
 lin2 <- tidy(lin)
 R2 <- lin1$r.squared
 
-
+options(scipen=999)
 
 linplot = ggplot(linearity, aes(x = A, y = B)) + 
         geom_point(size=5, shape = 21, colour = "darkgreen") + 
