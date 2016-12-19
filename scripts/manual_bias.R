@@ -1,18 +1,24 @@
 library(readxl)
 library(ggplot2)
+library(dplyr)
 
 # Bias-----------------------------------------------------------
 
-data.in <- read_excel("Validation_Workbook_VITE04.xlsx", sheet = "Bias", skip = 8)
-r_bias = nrow(data.in)
-bias <- data.in$Bias
+## Mac Data -----------------------------------------------------
+data.in <- read_excel("~/Documents/GitHub/Validation_Set/data/Ammonia Validation Workbook.xlsx", 
+                      sheet = "Bias", skip = 6)
 
-bias <- na.omit(bias)
+colnames(data.in)[12] <- "pct_Bias"
+colnames(data.in)[10] <- "pct_sd"
+data.in <- data.in[,-13]
 
+# Filter -----------------------------------------------------------------
+data.in <- data.in %>% 
+        filter(Type == "High Standard")
 
-u_ref <- mean(data.in$pct_sd)/sqrt(mean(data.in$n))
-ave_bias <- mean(data.in$pct_Bias)
-sd_bias <- sd(data.in$pct_Bias)
+u_ref <- mean(data.in$pct_sd, na.rm = TRUE)/sqrt(mean(data.in$n, na.rm = TRUE))
+ave_bias <- mean(data.in$pct_Bias, na.rm = TRUE)
+sd_bias <- sd(data.in$pct_Bias, na.rm = TRUE)
 UoB <- sqrt(u_ref^2 + sd_bias^2)
 
 if(ave_bias > 2*UoB) {
@@ -32,3 +38,4 @@ biasplot <- ggplot(data.in, aes(x=row_n, y= data.in$pct_Bias)) +
               legend.position = c(2.3,8), 
               text = element_text(size = 14))
 biasplot
+
