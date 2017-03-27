@@ -1,21 +1,30 @@
-library("ProjectTemplate")
-load.project()
+# Clean Up environment ---------------------------------------------------
+rm(list=ls())
 
-# ANOVA-----------------------------------------------------------
-data_anova <- Validation.Workbook.ANOVA1
+# Packages ---------------------------------------------------------------
+library(readxl)
+library(readr)
+library(dplyr)
+library(tidyr)
+library(ggplot2)
 
+# Functions --------------------------------------------------------------
 
-
-cols <- as.numeric(ncol(data_anova))
-rows <- as.numeric(nrow(data_anova))
-
-Input <- data_anova[1:rows, 1:cols]
-
-for (i in 1:cols) {
-        Input[,i] = as.numeric(unlist(Input[,i]))
+remove_outliers <- function(x, na.rm = TRUE, ...) {
+ qnt <- quantile(x, probs=c(.25, .75), na.rm = na.rm, ...)
+  H <- 1.5 * IQR(x, na.rm = na.rm)
+ y <- x
+ y[x < (qnt[1] - H)] <- NA
+ y[x > (qnt[2] + H)] <- NA
+ y
 }
 
+# Data Input -------------------------------------------------------------
 
+Input <- read_excel("~/Desktop/Lactoferrin/Validation Workbook July 2016.xlsx", 
+                         sheet = "ANOVA")
+
+# ANOVA ------------------------------------------------------------------
 #Always look at the data
 
 dev.off()
@@ -74,7 +83,8 @@ plot_anova = ggplot(xs, aes(x=ind, y=values)) +
         geom_hline(aes(yintercept=LCL),lty=5, col = "red") +
         geom_hline(aes(yintercept=UWL),lty=5, col = "darkgreen") +
         geom_hline(aes(yintercept=LWL),lty=5, col = "darkgreen") +
-        scale_y_continuous(limits = c(0.95*LCL,1.05*UCL)) +
+        scale_y_continuous(limits = c(0.997*LCL,1.003*UCL)) +
+        labs(x="Batch", y="Percent Lactoferrin", title = "Lactoferrin Results") +
         theme_bw() +
         theme(panel.grid.major = element_line(size = 0.5, color = "grey"), 
               axis.line = element_line(size = 0.7, color = "black"), 
