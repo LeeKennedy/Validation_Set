@@ -14,7 +14,7 @@ library(broom)
 
 # Data Input -------------------------------------------------------------
 
-linearity <- read_excel("~/Desktop/Vitamin K1/VIK101 - Validation Workbook.xlsx", 
+linearity <- read_excel("~/Documents/GitHub/Validation_Set/data/New_Validation_Workbook.xlsx", 
                         sheet = "Linearity")
 
 
@@ -52,7 +52,7 @@ linplot
 png(filename = paste("graphs/","Linearity.png",sep=""),
     width = 1000, height = 550, units = "px", pointsize = 12)
 plot(linplot)
-
+dev.off()
 
 lin2
 R2

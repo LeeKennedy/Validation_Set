@@ -21,14 +21,17 @@ remove_outliers <- function(x, na.rm = TRUE, ...) {
 
 # Data Input -------------------------------------------------------------
 
-Input <- read_excel("~/Desktop/Lactoferrin/Validation Workbook July 2016.xlsx", 
-                         sheet = "ANOVA")
+aov_input <- read_excel("~/Documents/GitHub/Validation_Set/data/New_Validation_Workbook.xlsx", 
+                    sheet = "ANOVA")
+
+aov_input <- aov_input[rowSums(is.na(aov_input)) != ncol(aov_input),]
+
 
 # ANOVA ------------------------------------------------------------------
 #Always look at the data
 
 dev.off()
-boxplot(Input,
+boxplot(aov_input,
         frame = TRUE,
         cex.axis = 1.5,
         cex.main = 2,
@@ -36,7 +39,7 @@ boxplot(Input,
         outcol = "red")
 
 #convert to a two element stack
-xs <- na.omit(stack(Input))
+xs <- na.omit(stack(aov_input))
 
 # Run ANOVA
 anova1 <- aov(values ~ ind, data = xs)
