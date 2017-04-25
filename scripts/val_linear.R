@@ -48,11 +48,8 @@ linplot = ggplot(linearity, aes(x = A, y = B)) +
 
 linplot
 
+ggsave("lin_plot_test1.png", width=12, height=6, dpi=100)
 
-png(filename = paste("graphs/","Linearity.png",sep=""),
-    width = 1000, height = 550, units = "px", pointsize = 12)
-plot(linplot)
-dev.off()
 
 lin2
 R2

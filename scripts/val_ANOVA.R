@@ -96,3 +96,6 @@ plot_anova = ggplot(xs, aes(x=ind, y=values)) +
 
 plot_anova
 
+ggsave("plot_test1.png", width=12, height=6, dpi=100)
+
+

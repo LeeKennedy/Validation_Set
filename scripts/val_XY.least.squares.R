@@ -1,8 +1,21 @@
-library("ProjectTemplate")
-load.project()
+
+# Clean Up environment ---------------------------------------------------
+rm(list=ls())
+
+# Packages ---------------------------------------------------------------
+library(readxl)
+library(readr)
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+library(broom)
 
 
-data3 <- read_excel("data/Validation_Workbook.xlsx", sheet = "XY_Comparison")
+
+# Data Input -------------------------------------------------------------
+
+data3 <- read_excel("~/Documents/GitHub/Validation_Set/data/New_Validation_Workbook.xlsx", 
+                    sheet = "XY_Comparison")
   
 fit = lm(New ~ Old, data = data3)
 
@@ -24,6 +37,8 @@ dataplot <- ggplot(data3, aes(x = Old, y = New)) +
               axis.line = element_line(size = 0.7, color = "black"), 
               text = element_text(size = 14))
 dataplot
+
+ggsave("XY_plot_test1.png", width=12, height=6, dpi=100)
 
 coefficients(fit) # model coefficients
 confint(fit, level=0.95) # CIs for model parameters 
