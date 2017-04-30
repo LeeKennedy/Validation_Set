@@ -14,8 +14,15 @@ library(broom)
 
 # Data Input -------------------------------------------------------------
 
-bias <- read_excel("~/Documents/GitHub/Validation_Set/data/New_Validation_Workbook.xlsx", 
-                   sheet = "Bias", skip = 8)
+if("Windows" %in% Sys.info()['sysname'] == TRUE){ 
+        x = "something"
+} else { 
+        key <- read_excel("~/Documents/GitHub/Validation_Set/data/New_Validation_Workbook.xlsx", 
+                          sheet = "Key")
+        bias <- read_excel("~/Documents/GitHub/Validation_Set/data/New_Validation_Workbook.xlsx", 
+                           sheet = "Bias", skip = 8) 
+}
+
 bias <- bias[,1:12]
 bias <- na.omit(bias)
 colnames(bias) <- c("Type", "Reference", "Date", "Unit", "Matrix","Reference_Mean", "sd","n","Lab_Result","pct_sd", "Bias", "pct_Bias")
@@ -38,7 +45,7 @@ bias$row_n <- as.numeric(rownames(bias))
 
 biasplot <- ggplot(bias, aes(x=row_n, y= bias$pct_Bias)) +
         geom_bar(position = "identity", stat = "identity", fill = "cornflowerblue", colour = "blue") +
-        labs(title = "Percent Bias\n", y = "pct_Bias", x = "") +
+        labs(title = paste(key[1,2]," Percent Bias\n", sep=""), y = "% Bias", x = "Samples") +
         theme_bw() +
         theme(panel.grid.major = element_line(size = 0.5, color = "grey"), 
               axis.line = element_line(size = 0.7, color = "black"), 
@@ -46,4 +53,4 @@ biasplot <- ggplot(bias, aes(x=row_n, y= bias$pct_Bias)) +
               text = element_text(size = 14))
 biasplot
 
-ggsave("bias_plot_test1.png", width=12, height=6, dpi=100)
+ggsave(paste(key[1,2], "_bias_plot.png", sep=""), width=12, height=6, dpi=100)

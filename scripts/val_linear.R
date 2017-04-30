@@ -14,9 +14,14 @@ library(broom)
 
 # Data Input -------------------------------------------------------------
 
-linearity <- read_excel("~/Documents/GitHub/Validation_Set/data/New_Validation_Workbook.xlsx", 
-                        sheet = "Linearity")
-
+if("Windows" %in% Sys.info()['sysname'] == TRUE){ 
+        x = "something"
+} else { 
+        key <- read_excel("~/Documents/GitHub/Validation_Set/data/New_Validation_Workbook.xlsx", 
+                          sheet = "Key")
+        linearity <- read_excel("~/Documents/GitHub/Validation_Set/data/New_Validation_Workbook.xlsx", 
+                                sheet = "Linearity")
+}
 
 # Linearity-----------------------------------------------------------
 col1 <- colnames(linearity[1])
@@ -32,14 +37,13 @@ R2 <- lin1$r.squared
 dev.off()
 
 linplot = ggplot(linearity, aes(x = A, y = B)) + 
-        geom_point(size=5, shape = 21, colour = "darkgreen") + 
-        geom_abline(intercept=coef(lin)[1], slope=coef(lin)[2]) + 
-        stat_smooth(method = "lm", fullrange = TRUE) +
+        geom_point(size=5, shape = 21, colour = "darkgreen", fill = "cornflowerblue") + 
+        geom_abline(intercept=coef(lin)[1], slope=coef(lin)[2], lty = 2, col = "blue") + 
         annotate("text", 
                  label = paste("R2 = ",
                  round(summary(lin)$r.squared,digits=4)), 
                  x = 0.5*max(linearity[,1]), y = 0.8*max(linearity[,2])) +
-       labs(x=col1, y=col2, title = "Linearity", subtitle = "The grey zone is the 95% Confidence Interval") +
+       labs(title = paste(key[1,2]," Linearity", sep=""), x = key[2,2], y=key[3,2]) +
         theme_bw() +
         theme(panel.grid.major = element_line(size = 0.5, color = "grey"), 
               axis.line = element_line(size = 0.7, color = "black"), 
@@ -48,7 +52,7 @@ linplot = ggplot(linearity, aes(x = A, y = B)) +
 
 linplot
 
-ggsave("lin_plot_test1.png", width=12, height=6, dpi=100)
+ggsave(paste(key[1,2], "_linearity.png", sep=""), width=12, height=6, dpi=100)
 
 
 lin2

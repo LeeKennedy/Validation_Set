@@ -14,8 +14,15 @@ library(broom)
 
 # Data Input -------------------------------------------------------------
 
-data3 <- read_excel("~/Documents/GitHub/Validation_Set/data/New_Validation_Workbook.xlsx", 
-                    sheet = "XY_Comparison")
+if("Windows" %in% Sys.info()['sysname'] == TRUE){ 
+        x = "something"
+} else { 
+        key <- read_excel("~/Documents/GitHub/Validation_Set/data/New_Validation_Workbook.xlsx", 
+                          sheet = "Key")
+        data3 <- read_excel("~/Documents/GitHub/Validation_Set/data/New_Validation_Workbook.xlsx", 
+                            sheet = "XY_Comparison")
+}
+
   
 fit = lm(New ~ Old, data = data3)
 
@@ -27,18 +34,14 @@ dataplot <- ggplot(data3, aes(x = Old, y = New)) +
         annotate("text", label = paste("R2 = ",round(summary(fit)$r.squared,digits=4)), x = 7.5, y = 6) +
         geom_smooth(method = "lm") +
         geom_abline(slope=1, intercept = 0, colour = "red", lty = 2) +
-        xlab("Old method") +
-        ylab("New method") +
-        ggtitle("Comparison: Old vs New\n") +
-        geom_hline(yintercept = 0) +
-        geom_vline(xintercept = 0) +
+        labs(title = paste(key[1,2], "Comparison: Old vs New\n", sep=""), x= "Old Method", y = "New Method") +
         theme_bw(base_size = 12, base_family = "Arial") +
         theme(panel.grid.major = element_line(size = 0.5, color = "grey"), 
               axis.line = element_line(size = 0.7, color = "black"), 
               text = element_text(size = 14))
 dataplot
 
-ggsave("XY_plot_test1.png", width=12, height=6, dpi=100)
+ggsave(paste(key[1,2], " XY_plot.png", sep=""), width=12, height=12, dpi=100)
 
 coefficients(fit) # model coefficients
 confint(fit, level=0.95) # CIs for model parameters 

@@ -14,8 +14,14 @@ library(broom)
 
 # Data Input -------------------------------------------------------------
 
-LOR <- read_excel("~/Documents/GitHub/Validation_Set/data/New_Validation_Workbook.xlsx", 
-                   sheet = "LOD-LOR", skip = 3)
+if("Windows" %in% Sys.info()['sysname'] == TRUE){ 
+        x = "something"
+} else { 
+        key <- read_excel("~/Documents/GitHub/Validation_Set/data/New_Validation_Workbook.xlsx", 
+                          sheet = "Key")
+        LOR <- read_excel("~/Documents/GitHub/Validation_Set/data/New_Validation_Workbook.xlsx", 
+                          sheet = "LOD-LOR", skip = 3)
+}
 
 LOR <- LOR[,1:2]
 
