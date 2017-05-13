@@ -1,35 +1,7 @@
-# Clean Up environment ---------------------------------------------------
-rm(list=ls())
-
-# Packages ---------------------------------------------------------------
-library(readxl)
-library(readr)
-library(dplyr)
-library(tidyr)
-library(ggplot2)
-
-# Functions --------------------------------------------------------------
-
-remove_outliers <- function(x, na.rm = TRUE, ...) {
- qnt <- quantile(x, probs=c(.25, .75), na.rm = na.rm, ...)
-  H <- 1.5 * IQR(x, na.rm = na.rm)
- y <- x
- y[x < (qnt[1] - H)] <- NA
- y[x > (qnt[2] + H)] <- NA
- y
-}
-
 
 # Data Input -------------------------------------------------------------
 
-if("Windows" %in% Sys.info()['sysname'] == TRUE){ 
-        x = "something"
-} else { 
-        key <- read_excel("~/Documents/GitHub/Validation_Set/data/New_Validation_Workbook.xlsx", 
-                          sheet = "Key")
-        aov_input <- read_excel("~/Documents/GitHub/Validation_Set/data/New_Validation_Workbook.xlsx", 
-                                sheet = "ANOVA") 
-}
+aov_input <- read_excel(location, sheet = "ANOVA") 
 
 aov_input <- aov_input[rowSums(is.na(aov_input)) != ncol(aov_input),]
 

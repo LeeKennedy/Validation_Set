@@ -1,27 +1,7 @@
 
-# Clean Up environment ---------------------------------------------------
-rm(list=ls())
-
-# Packages ---------------------------------------------------------------
-library(readxl)
-library(readr)
-library(dplyr)
-library(tidyr)
-library(ggplot2)
-library(broom)
-
-
-
 # Data Input -------------------------------------------------------------
 
-if("Windows" %in% Sys.info()['sysname'] == TRUE){ 
-        x = "something"
-} else { 
-        key <- read_excel("~/Documents/GitHub/Validation_Set/data/New_Validation_Workbook.xlsx", 
-                          sheet = "Key")
-        bias <- read_excel("~/Documents/GitHub/Validation_Set/data/New_Validation_Workbook.xlsx", 
-                           sheet = "Bias", skip = 8) 
-}
+bias <- read_excel(location,  sheet = "Bias", skip = 8) 
 
 bias <- bias[,1:12]
 bias <- na.omit(bias)

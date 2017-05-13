@@ -1,29 +1,8 @@
 
-# Clean Up environment ---------------------------------------------------
-rm(list=ls())
-
-# Packages ---------------------------------------------------------------
-library(readxl)
-library(readr)
-library(dplyr)
-library(tidyr)
-library(ggplot2)
-library(broom)
-
-
-
 # Data Input -------------------------------------------------------------
 
-if("Windows" %in% Sys.info()['sysname'] == TRUE){ 
-        x = "something"
-} else { 
-        key <- read_excel("~/Documents/GitHub/Validation_Set/data/New_Validation_Workbook.xlsx", 
-                          sheet = "Key")
-        data3 <- read_excel("~/Documents/GitHub/Validation_Set/data/New_Validation_Workbook.xlsx", 
-                            sheet = "XY_Comparison")
-}
+data3 <- read_excel(location,  sheet = "XY_Comparison")
 
-  
 fit = lm(New ~ Old, data = data3)
 
 summary(fit)

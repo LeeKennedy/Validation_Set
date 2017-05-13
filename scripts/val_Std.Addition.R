@@ -1,27 +1,8 @@
 
-# Clean Up environment ---------------------------------------------------
-rm(list=ls())
-
-# Packages ---------------------------------------------------------------
-library(readxl)
-library(readr)
-library(dplyr)
-library(tidyr)
-library(ggplot2)
-library(broom)
-
-
 
 # Data Input -------------------------------------------------------------
 
-if("Windows" %in% Sys.info()['sysname'] == TRUE){ 
-        x = "something"
-} else { 
-        key <- read_excel("~/Documents/GitHub/Validation_Set/data/New_Validation_Workbook.xlsx", 
-                          sheet = "Key")
-        data_stdadd <- read_excel("~/Documents/GitHub/Validation_Set/data/New_Validation_Workbook.xlsx", 
-                                  sheet = "Std_Add")
-}
+data_stdadd <- read_excel(location, sheet = "Std_Add")
 
 col1 <- "#CC3300"
 

@@ -1,27 +1,8 @@
 
-# Clean Up environment ---------------------------------------------------
-rm(list=ls())
-
-# Packages ---------------------------------------------------------------
-library(readxl)
-library(readr)
-library(dplyr)
-library(tidyr)
-library(ggplot2)
-library(broom)
-
-
-
 # Data Input -------------------------------------------------------------
 
-if("Windows" %in% Sys.info()['sysname'] == TRUE){ 
-        x = "something"
-} else { 
-        key <- read_excel("~/Documents/GitHub/Validation_Set/data/New_Validation_Workbook.xlsx", 
-                          sheet = "Key")
-        linearity <- read_excel("~/Documents/GitHub/Validation_Set/data/New_Validation_Workbook.xlsx", 
-                                sheet = "Linearity")
-}
+linearity <- read_excel(location, sheet = "Linearity")
+
 
 # Linearity-----------------------------------------------------------
 col1 <- colnames(linearity[1])
