@@ -13,7 +13,7 @@ srm <- strsplit(srmdata$TEXT_ID, split="-")
 srm <- sapply(srm,function(x) x[2])
 srm <- as.data.frame(srm)
 srmdata <- cbind(srmdata, srm)
-srm2 <- srmdata[,c(1,19,8,9)]
+srm2 <- srmdata[,c(1,7,4,5)]
 
 
 # Boxplot ----------------------------------------------------------------
@@ -22,7 +22,7 @@ boxplot(srm2$ENTRY~srm2$srm)
 
 # Desired SRM ------------------------------------------------------------
 
-srm.name <- "IRM001B"
+srm.name <- "IRM001A"
 
 
 srm.raw <- srm2 %>% 
@@ -53,16 +53,17 @@ LCL <- Mean - 3*SD
 
 # Visualising Data -------------------------------------------------------
 
-srm.plot <- ggplot(srm.active, aes(x=n, y=Clean)) +
+srm.plot <- ggplot(srm.active, aes(x=n, y=All_Data)) +
         geom_line(lwd=0.1, col="black") +
-        geom_point(size=4, shape=21, fill="cornflowerblue", col = "black") +
+        geom_point(size=4, shape=21, fill="red", col = "black") +
+        geom_point(aes(y=Clean), size=4, shape=21, fill="cornflowerblue", col = "black") +
         geom_hline(yintercept = Mean, lty=2, col="red") +
         geom_hline(yintercept = UCL, lty=2, col="darkgreen") +
         geom_hline(yintercept = LCL, lty=2, col="darkgreen") +
         geom_hline(yintercept = UWL, lty=2, col="black") +
         geom_hline(yintercept = LWL, lty=2, col="black") +
-        labs(title = paste(srm.name, " Control Chart\n", sep=""), y = "mg/kg", x="") +
-        scale_y_continuous(limits = c(0.01, 0.04)) +
+        labs(title = paste(srm.name, " Control Chart", sep=""), subtitle = "Robust Outliers in red\n", y = "mg/kg", x="") +
+        scale_y_continuous(limits = c(LCL-0.01, UCL+0.01)) +
         theme_bw() +
         theme(panel.grid.major = element_line(size = 0.5, color = "grey"), 
               axis.line = element_line(size = 0.7, color = "black"), 
