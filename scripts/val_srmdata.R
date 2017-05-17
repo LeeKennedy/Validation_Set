@@ -22,7 +22,7 @@ boxplot(srm2$ENTRY~srm2$srm)
 
 # Desired SRM ------------------------------------------------------------
 
-srm.name <- "IRM001A"
+srm.name <- "IRM001B"
 
 
 srm.raw <- srm2 %>% 
@@ -62,7 +62,7 @@ srm.plot <- ggplot(srm.active, aes(x=n, y=All_Data)) +
         geom_hline(yintercept = LCL, lty=2, col="darkgreen") +
         geom_hline(yintercept = UWL, lty=2, col="black") +
         geom_hline(yintercept = LWL, lty=2, col="black") +
-        labs(title = paste(srm.name, " Control Chart", sep=""), subtitle = "Robust Outliers in red\n", y = "mg/kg", x="") +
+        labs(title = paste(srm.name, " Control Chart", sep=""), subtitle = "Robust Outliers in red\n", y = key[2,2], x="") +
         scale_y_continuous(limits = c(LCL-0.01, UCL+0.01)) +
         theme_bw() +
         theme(panel.grid.major = element_line(size = 0.5, color = "grey"), 
