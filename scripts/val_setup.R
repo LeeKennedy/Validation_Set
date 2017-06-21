@@ -11,14 +11,9 @@ library(broom)
 
 # Data Input -------------------------------------------------------------
 
-location <- "~/Desktop/VB1201/Vitamin_B12_Validation_Workbook.xlsx"
+location <- "Y:/Validation and Verification of methods/Chemistry/Project 239 - VIB501 submission to NATA/1. Data/VIB501_Validation_Workbook_2017.xlsx"
 
-if("Windows" %in% Sys.info()['sysname'] == TRUE){ 
-        x = "something"
-} else { 
-        key <- read_excel(location,  sheet = "Key")
-
-}
+key <- read_excel(location,  sheet = "Key")
 
 # Functions --------------------------------------------------------------
 

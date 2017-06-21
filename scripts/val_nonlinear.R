@@ -26,7 +26,7 @@ linplot = ggplot(linearity, aes(x = A, y = B)) +
                  label = paste("R2 = ",
                  round(summary(lin)$r.squared,digits=4)), 
                  x = 0.5*max(linearity[,1]), y = 0.8*max(linearity[,2])) +
-       labs(title = paste(key[1,2]," Linearity", sep=""), subtitle = "Batch VB1201-17-0053", caption = "Cubic Least Squares Fit",  x = key[2,2], y=key[3,2]) +
+       labs(title = paste(key[1,2]," Linearity", sep=""), subtitle = "Batch VIB501-17-0051", caption = "Cubic Least Squares Fit",  x = key[2,2], y=key[3,2]) +
         theme_bw() +
         theme(panel.grid.major = element_line(size = 0.5, color = "grey"), 
               axis.line = element_line(size = 0.7, color = "black"), 

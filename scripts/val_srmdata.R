@@ -22,7 +22,7 @@ boxplot(srm2$ENTRY~srm2$srm)
 
 # Desired SRM ------------------------------------------------------------
 
-srm.name <- "IRM001B"
+srm.name <- "IRM001A"
 
 
 srm.raw <- srm2 %>% 
