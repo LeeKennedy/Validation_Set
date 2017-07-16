@@ -55,7 +55,7 @@ plot_anova = ggplot(xs, aes(x=ind, y=values)) +
         geom_hline(aes(yintercept=UWL),lty=5, col = "darkgreen") +
         geom_hline(aes(yintercept=LWL),lty=5, col = "darkgreen") +
         scale_y_continuous(limits = c(0.96*LCL,1.04*UCL)) +
-        labs(x="Batch", y= key[2,2], title = paste(key[1,2], " Results\n")) +
+        labs(x="Batch", y= key[2,2], title = paste(key[1,2], "Results"), subtitle = "IRM001A\n") +
         theme_bw() +
         theme(panel.grid.major = element_line(size = 0.5, color = "grey"), 
               axis.line = element_line(size = 0.7, color = "black"), 

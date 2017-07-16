@@ -11,7 +11,11 @@ library(broom)
 
 # Data Input -------------------------------------------------------------
 
+<<<<<<< Updated upstream
 location <- "Y:/Validation and Verification of methods/Chemistry/Project 239 - VIB501 submission to NATA/1. Data/VIB501_Validation_Workbook_2017.xlsx"
+=======
+location <- "~/Desktop/GB Taurine/Taurine_Validation_Workbook.xlsx"
+>>>>>>> Stashed changes
 
 key <- read_excel(location,  sheet = "Key")
 
