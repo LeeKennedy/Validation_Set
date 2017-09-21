@@ -11,11 +11,7 @@ library(broom)
 
 # Data Input -------------------------------------------------------------
 
-<<<<<<< Updated upstream
-location <- "Y:/Validation and Verification of methods/Chemistry/Project 239 - VIB501 submission to NATA/1. Data/VIB501_Validation_Workbook_2017.xlsx"
-=======
-location <- "~/Desktop/GB Taurine/Taurine_Validation_Workbook.xlsx"
->>>>>>> Stashed changes
+location <- "~/Desktop/GB_VIT_C Validation_Workbook.xlsx"
 
 key <- read_excel(location,  sheet = "Key")
 
@@ -29,3 +25,4 @@ remove_outliers <- function(x, na.rm = TRUE, ...) {
         y[x > (qnt[2] + H)] <- NA
         y
 }
+
