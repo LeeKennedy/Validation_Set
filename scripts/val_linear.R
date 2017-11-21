@@ -15,7 +15,7 @@ lin1 <- summary(lin)
 lin2 <- tidy(lin)
 R2 <- lin1$r.squared
 
-dev.off()
+#dev.off()
 
 linplot = ggplot(linearity, aes(x = A, y = B)) + 
         geom_point(size=5, shape = 21, colour = "darkgreen", fill = "cornflowerblue") + 
