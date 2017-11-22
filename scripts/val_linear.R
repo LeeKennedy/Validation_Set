@@ -45,3 +45,19 @@ coefficients(lin) # model coefficients
 confint(lin, level=0.95) # CIs for model parameters
 CI_curve <- confint(lin, level=0.95) 
 
+res_lin <- residuals(lin)
+concs <- as.data.frame(linearity$A)
+concs$residuals <- res_lin
+colnames(concs)[1] <- "Concentration"
+
+res_plot <- ggplot(concs, aes(x=Concentration, y=residuals)) +
+        geom_point(size=4, shape=21, col="black", fill="cornflowerblue") +
+        geom_segment(aes(x=Concentration, 
+                         xend=Concentration, 
+                         y=0, 
+                         yend=residuals)) +
+        geom_hline(yintercept = 0) +
+        labs(title = "Residuals") +
+        theme_bw() +
+        theme(panel.grid.major = element_line(size = 0.5, color = "grey"), axis.line = element_line(size = 0.7, color = "black"), text = element_text(size = 14))
+res_plot

@@ -71,6 +71,8 @@ plot
 
 
 #ggsave("CC.png", last_plot(), width=8, height=4, dpi=50)
+
+### Alternatively - a boxplot --------------------------------------
 boxplot(data$ENTRY~data$ANALYSIS,
         main = "IRM001A, tested by ICP-MS and GB\n",
         ylab = "ug/100g",

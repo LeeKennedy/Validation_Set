@@ -1,7 +1,7 @@
 
 # Data Input -------------------------------------------------------------
 
-linearity <- read_excel(location, sheet = "Linearity")
+linearity <- read_excel(location, sheet = "Multi_Linearity")
 
 n <- nrow(linearity)
 m <- ncol(linearity)-1
