@@ -74,6 +74,6 @@ plot
 
 ### Alternatively - a boxplot --------------------------------------
 boxplot(data$ENTRY~data$ANALYSIS,
-        main = "IRM001A, tested by ICP-MS and GB\n",
+        main = "IRM001A, tested by ICP-MS, IODI01 and GB\n",
         ylab = "ug/100g",
         col="cornflowerblue")
